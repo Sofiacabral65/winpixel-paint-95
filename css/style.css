@@ -260,60 +260,100 @@ body {
 
 @media (max-width: 768px) {
     
-    /* 1. se quita la altura fija para que se pueda hacer scroll vertical */
+    /* 1. BODY: Quitamos rellenos innecesarios para ganar espacio */
     body {
+        display: block; 
+        padding: 5px; 
         height: auto;
         min-height: 100vh;
-        display: block; /* quito flex centrado para evitar cortes arriba */
-        padding: 5px; /* Menos relleno para aprovechar pantalla */
-        overflow-x: hidden; /* Prohibido scroll horizontal */
+        overflow-x: hidden; /* no scroll lateral */
     }
 
-    /* 2. cambio de layout de fila a columna */
+    /* 2. HEADER MINIMALISTA: Texto más pequeño */
+    .title-bar {
+        font-size: 14px;
+        padding: 2px 5px;
+        min-height: 25px;
+    }
+    
+    /* Ocultamos los botones de ventana (min/max/cerrar) en móvil para ganar espacio */
+    .title-bar-controls {
+        display: none; 
+    }
+
+    /* 3. LAYOUT VERTICAL */
     .app-layout {
-        flex-direction: column; /* apila Sidebar encima del lienzo */
+        flex-direction: column; 
         gap: 5px;
-    }
-
-    /* 3. la barra de sidebar ocupa todo el ancho */
-    .sidebar {
-        width: 100%;
-        flex: none; /* se quita el bloqueo de tamaño */
         margin-bottom: 5px;
     }
 
-    /* 4. ajuste de la paleta para que sea más fácil de tocar con el dedo */
-    .palette-grid {
-        grid-template-columns: repeat(10, 1fr); /* más colores por fila para ahorrar espacio */
-        gap: 2px;
-    }
-    .palette-color {
-        width: 100%; 
-        height: 30px; /* más alto para facilitar el toque */
+    /* 4. BARRA DE HERRAMIENTAS COMPACTA */
+    .sidebar {
+        width: 100%;
+        flex: none;
+        margin-bottom: 0;
+        padding: 5px;
+        
+        /* TRUCO: Usamos Flexbox para poner paleta y botones todo junto si cabe,
+           o al menos ahorrar espacio vertical */
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
     }
 
-    /* 5. EL LIENZO RESPONSIVE */
+    /* 5. PALETA: Colores pequeñitos en una sola fila larga (con scroll si hace falta) o 2 filas */
+    .palette-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2px;
+        margin: 0;
+    }
+    
+    .palette-color {
+        width: 25px;  /* más pequeños (tuve un problema que los colores y herramientas tomaban mitad de la pagina del cel) */
+        height: 25px;
+    }
+
+    /* 6. BOTONES EN FILA (CLAVE): En vez de uno encima de otro, los ponemos al lado */
+    /* como no tienen un contenedor padre específico, usamos un selector general si están sueltos,
+       pero asumimos que son .btn-retro dentro de .sidebar */
+    
+    .sidebar .btn-retro {
+        width: 32%; /* Que ocupen un tercio cada uno para caber los 3 en una línea */
+        display: inline-block;
+        font-size: 12px; /* letra más pequeña */
+        padding: 5px;
+        margin-bottom: 0;
+        vertical-align: middle;
+    }
+
+    /* 7. LIENZO (CANVAS) VISIBLE */
     .canvas-area {
-        padding: 10px 0;
-        overflow: hidden; /* evita scroll horizontal feo y que el borde del canvas se rompa */
+        padding: 5px 0;
+        background-color: #808080;
     }
 
     .grid-canvas {
-        width: 95%; 
-        max-width: 340px; /* límite de ancho para que no se deforme */
-        /* Truco moderno: Aspect Ratio mantiene el cuadrado perfecto */
-        aspect-ratio: 1 / 1; 
-        height: auto; /* la altura se calcula sola gracias al aspect-ratio */
-        margin: 0 auto; /* centrado horizontal */
-        touch-action: none;
+        width: 95%; /* ocupa casi todo el ancho */
+        max-width: 340px; /* Tope para que no sea gigante */
+        aspect-ratio: 1 / 1; /* Cuadrado perfecto */
+        height: auto;
+        margin: 0 auto;
+        
+        /* Para poder pintar sin mover la pantalla */
+        touch-action: none; 
     }
     
-    .title-bar-text {
-        font-size: 16px;
+    /* 8. ajustes varios */
+    .instrucciones {
+        font-size: 12px;
+        text-align: center;
+        margin-top: 5px;
     }
     
-    /* 6. el modal/pop-up de bienvenida más pequeño */
     .modal-window {
-        width: 95%; /* deja un pequeño margen lateral */
+        width: 90%;
     }
 }
