@@ -265,28 +265,31 @@ body {
         height: auto;
         min-height: 100vh;
         display: block; /* quito flex centrado para evitar cortes arriba */
-        padding: 10px;
+        padding: 5px; /* Menos relleno para aprovechar pantalla */
+        overflow-x: hidden; /* Prohibido scroll horizontal */
     }
 
     /* 2. cambio de layout de fila a columna */
     .app-layout {
         flex-direction: column; /* apila Sidebar encima del lienzo */
+        gap: 5px;
     }
 
     /* 3. la barra de sidebar ocupa todo el ancho */
     .sidebar {
         width: 100%;
         flex: none; /* se quita el bloqueo de tamaño */
-        margin-bottom: 10px;
+        margin-bottom: 5px;
     }
 
     /* 4. ajuste de la paleta para que sea más fácil de tocar con el dedo */
     .palette-grid {
-        grid-template-columns: repeat(8, 1fr); /* más colores por fila para ahorrar espacio */
+        grid-template-columns: repeat(10, 1fr); /* más colores por fila para ahorrar espacio */
+        gap: 2px;
     }
     .palette-color {
         width: 100%; 
-        height: 35px; /* más alto para facilitar el toque */
+        height: 30px; /* más alto para facilitar el toque */
     }
 
     /* 5. EL LIENZO RESPONSIVE */
@@ -296,16 +299,21 @@ body {
     }
 
     .grid-canvas {
-        width: 100%; 
-        max-width: 400px; /* límite de ancho para que no se deforme */
+        width: 95%; 
+        max-width: 340px; /* límite de ancho para que no se deforme */
         /* Truco moderno: Aspect Ratio mantiene el cuadrado perfecto */
         aspect-ratio: 1 / 1; 
         height: auto; /* la altura se calcula sola gracias al aspect-ratio */
         margin: 0 auto; /* centrado horizontal */
+        touch-action: none;
+    }
+    
+    .title-bar-text {
+        font-size: 16px;
     }
     
     /* 6. el modal/pop-up de bienvenida más pequeño */
     .modal-window {
-        width: 90%; /* deja un pequeño margen lateral */
+        width: 95%; /* deja un pequeño margen lateral */
     }
 }
