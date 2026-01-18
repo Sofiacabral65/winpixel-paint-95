@@ -1,0 +1,311 @@
+/* WINPIXEL PAINT 95 - HOJA DE ESTILOS PRINCIPAL
+   Estética basada en la interfaz clásica de Windows 95 */
+
+/* configuración global */
+:root { 
+    /* variables de color para mantener la consistencia de la paleta Windows 95 */
+    --win-gray: #c0c0c0; /* gris base de las ventanas */
+    --win-dark-gray: #808080; /* sombras oscuras */
+    --win-blue: #000080; /* azul de la barra de título activa */
+    --win-white: #ffffff; /* brillos y fondos de texto */
+    --pixel-font: 'Pixelify Sans', sans-serif; /* tipografía pixelada importada de google fonts */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* crucial para que los bordes no sumen al ancho total */
+    /* Desactiva el suavizado de fuente para que se vea más pixelado */
+    image-rendering: pixelated; /* desactiva el antialiasing (suavizado) para que todo se vea pixelado y nítido */
+}
+
+body {
+    font-family: var(--pixel-font);
+    background-color: #008080;  /* el fondo "teal" clasico de Windows 95 */
+    background-size: 100px;
+
+    /* centrado de la ventana principal en pantalla */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    overflow-x: hidden; /* si la pantalla es muy pequeña, evito que se corte el contenido */
+}
+
+/* VENTANA (Window)
+========================================================================== */
+
+/* contenedor principal estilo ventana */
+.window-retro {
+    background-color: var(--win-gray);
+    width: 100%;
+    max-width: 800px;
+
+    /* Efecto 3D (Biselado Saliente):
+       usamos múltiples sombras (box-shadow) en lugar de bordes simples
+       para simular la luz (blanco arriba/izquierda) y sombra (negro abajo/derecha). */
+    box-shadow: inset -2px -2px #0a0a0a, inset 2px 2px #dfdfdf, inset -4px -4px grey, inset 4px 4px white;
+    padding: 4px;
+}
+
+/* Barra de título superior azul */
+.title-bar {
+    background-color: var(--win-blue); /* el degradado azul (aquí sólido por simplicidad) */
+    color: var(--win-white);
+    padding: 4px 8px;
+    display: flex;
+    justify-content: space-between; /* texto a la izq, botones a la dcha */
+    align-items: center;
+    font-size: 20px; /* tamaño aumentado para mejorar legibilidad en fuente pixel */
+    margin-bottom: 4px;
+}
+
+/* Botones de control de ventana falsos de la barra de título */
+.title-bar-controls button {
+    width: 18px;
+    height: 14px;
+    background-color: var(--win-gray);
+    border: none;
+
+    /* efecto 3D saliente en miniatura para los botones */
+    box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #ffffff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
+    margin-left: 2px;
+}
+
+/* Cuerpo de la ventana */
+.window-body {
+    padding: 10px;
+}
+
+/* LAYOUT DE LA APLICACIÓN
+========================================================================== */
+
+/* Contenedor Flex para dividir Sidebar y Lienzo */
+.app-layout {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+/* Cajas hundidas (Efecto 3D hacia adentro) usado en el lienzo, sidebar y status bar para dar profundidad */
+.retro-box {
+    border: 2px solid;
+    border-color: #808080 #ffffff #ffffff #808080; /* Orden de bordes: Top Right Bottom Left -> Gris oscuro, Blanco, Blanco, Gris oscuro */
+    background: var(--win-white);
+    padding: 10px;
+}
+
+/* Barra Lateral (Herramientas) */
+.sidebar {
+    flex: 0 0 200px; /* Ancho fijo para la barra lateral */
+    background-color: var(--win-gray);
+    font-size: 18px;
+    line-height: 1.5; /* Espaciado vertical para mejor lectura */
+}
+
+/* Área del Lienzo */
+.canvas-area {
+    flex-grow: 1; /* El lienzo ocupa el resto del espacio */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #808080; /* Fondo gris oscuro detrás del lienzo */
+}
+
+
+/* COMPONENTES INTERACTIVOS
+========================================================================== */
+
+/* Paleta de Colores */
+.palette-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* grid de 4 columnas automáticas */
+    gap: 5px;
+    margin-bottom: 20px;
+    margin-top: 5px;
+}
+
+.palette-color {
+    width: 30px;
+    height: 30px;
+    /* efecto botón 3D saliente */
+    box-shadow: inset -2px -2px #0a0a0a, inset 2px 2px #ffffff, inset -3px -3px grey, inset 3px 3px #dfdfdf;
+    cursor: pointer;
+}
+
+/* Cuando un color está seleccionado y parece hundido */
+.palette-color.selected {
+    /* Se invierten las sombras para crear el efecto de presionado */
+     box-shadow: inset 2px 2px #0a0a0a, inset -2px -2px #ffffff, inset 3px 3px grey, inset -3px -3px #dfdfdf;
+     border: 2px solid black;
+}
+
+
+/* Botones de Herramientas Retro */
+.btn-retro {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: var(--win-gray);
+    font-family: var(--pixel-font);
+    font-size: 18px;
+    border: none;
+    /* Efecto botón 3D saliente */
+    box-shadow: inset -2px -2px #0a0a0a, inset 2px 2px #ffffff, inset -3px -3px grey, inset 3px 3px #dfdfdf; /* efecto saliente estándar */
+    cursor: pointer;
+}
+
+/* Botón presionado o activo (efecto hundido) */
+.btn-retro:active, .btn-retro.active {
+     box-shadow: inset 2px 2px #0a0a0a, inset -2px -2px #ffffff, inset 3px 3px grey, inset -3px -3px #dfdfdf;
+     background-color: #e0e0e0; /* ligero cambio de color al pulsar */
+}
+
+/* Botón de borrado (rojo en hover para indicar peligro) */
+.btn-retro.danger:hover {
+    color: red;
+}
+
+/* El Lienzo (Grid de dibujo) */
+.grid-canvas {
+    display: grid;
+    grid-template-columns: repeat(30, 1fr); /* 'repeat' para generar las 30x30 celdas automáticamente */
+    grid-template-rows: repeat(30, 1fr);
+    width: 450px; /* Un poco más grande para que se vea bien */
+    height: 450px;
+    background-color: white;
+    border: 2px solid #000; /* borde negro simple alrededor del dibujo */
+    cursor: crosshair; /* cambia el cursor a una cruz para precisión */
+}
+
+/* Cada celda individual (píxel) */
+.pixel {
+    /* bordes sutiles para guiar al usuario, creando una rejilla */
+    border-right: 1px dotted #ccc;
+    border-bottom: 1px dotted #ccc;
+}
+
+/* Barra de estado inferior */
+.status-bar {
+    font-size: 16px;
+    background-color: var(--win-gray);
+    /* el padding ya viene de .retro-box */
+}
+
+
+/* POP UP (Pantalla de Bienvenida)
+========================================================================== */
+
+/* el fondo oscuro transparente que tapa todo */ 
+.overlay {
+    position: fixed; /* se queda fijo en la pantalla al hacer scroll */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Negro semitransparente al 70% */
+    display: flex; /* para centrar la ventana */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* asegura que esté siempre encima de todo */
+}
+
+/* Animación de entrada */
+.modal-window {
+    width: 350px;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* efecto rebote suave */
+}
+
+.modal-content {
+    text-align: center;
+    padding: 20px;
+}
+
+.modal-title {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: var(--win-blue);
+    line-height: 1.2;
+}
+
+.modal-text {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.modal-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px groove #fff; /* línea divisoria decorativa */
+}
+
+.start-app-btn {
+    font-size: 18px;
+    padding: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Animación de entrada (Efecto rebote) */
+@keyframes popIn {
+    0% { transform: scale(0); opacity: 0; }
+    80% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* DISEÑO RESPONSIVE (Movil y Tablet)
+========================================================================== */
+
+
+@media (max-width: 768px) {
+    
+    /* 1. se quita la altura fija para que se pueda hacer scroll vertical */
+    body {
+        height: auto;
+        min-height: 100vh;
+        display: block; /* quito flex centrado para evitar cortes arriba */
+        padding: 10px;
+    }
+
+    /* 2. cambio de layout de fila a columna */
+    .app-layout {
+        flex-direction: column; /* apila Sidebar encima del lienzo */
+    }
+
+    /* 3. la barra de sidebar ocupa todo el ancho */
+    .sidebar {
+        width: 100%;
+        flex: none; /* se quita el bloqueo de tamaño */
+        margin-bottom: 10px;
+    }
+
+    /* 4. ajuste de la paleta para que sea más fácil de tocar con el dedo */
+    .palette-grid {
+        grid-template-columns: repeat(8, 1fr); /* más colores por fila para ahorrar espacio */
+    }
+    .palette-color {
+        width: 100%; 
+        height: 35px; /* más alto para facilitar el toque */
+    }
+
+    /* 5. EL LIENZO RESPONSIVE */
+    .canvas-area {
+        padding: 10px 0;
+        overflow: hidden; /* evita scroll horizontal feo y que el borde del canvas se rompa */
+    }
+
+    .grid-canvas {
+        width: 100%; 
+        max-width: 400px; /* límite de ancho para que no se deforme */
+        /* Truco moderno: Aspect Ratio mantiene el cuadrado perfecto */
+        aspect-ratio: 1 / 1; 
+        height: auto; /* la altura se calcula sola gracias al aspect-ratio */
+        margin: 0 auto; /* centrado horizontal */
+    }
+    
+    /* 6. el modal/pop-up de bienvenida más pequeño */
+    .modal-window {
+        width: 90%; /* deja un pequeño margen lateral */
+    }
+}

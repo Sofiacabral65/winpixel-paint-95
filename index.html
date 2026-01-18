@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WinPixel Paint 95</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">  <!-- Link sacado de google fonts en embed code y luego lo conecte en CSS -->
+
+
+</head>
+<body>
+
+    <main class="window-retro"> <!-- Bloque/ventana principal donde estara el titulo y todo el contenido -->
+        <div class="title-bar"> <!-- barra de titulo de la ventana con estilo windows  -->
+            <div class="title-bar-text">👾 WinPixel Studio.exe</div> <!-- titulo de el site/juego  -->
+            <div class="title-bar-controls"> <!-- tres circulitos de hide/expand/cerrar  -->
+                <button tabindex="-1" aria-hidden="true" style="cursor: default;"></button>
+                <button tabindex="-1" aria-hidden="true" style="cursor: default;"></button>
+                <button tabindex="-1" aria-hidden="true" style="cursor: default;"></button> <!-- botones puramente visuales/decorativos -->
+
+            </div>
+        </div>
+
+        <!-- main: "aca comienza el contenido principal" -->
+        <!-- el titulo tiene .exe para reforzar la temática de "software instalable" de los 90 -->
+        <!-- Originalmente los botones de title bar control tenian aria-label (algo que sugirio chatgpt), pero me di cuenta de que era una mala práctica de UX 
+            porque los botones son decorativos y no funcionales. Prometer una función que no existe frustra al usuario.
+            Por eso, decidí usar aria-hidden='true' y tabindex='-1'. Así mantengo la estética retro de Windows 95, 
+            pero evito confundir a los usuarios que usan lectores de pantalla o navegación por teclado, ya que son puramente ornamentales. 
+            Podria haber puesto 3 circulos/rectangulos sin boton pero quise evitar romper el codigo -->
+
+        <div class="window-body"> <!-- contenedor dentro de window-retro que tendra lo esencial -->
+            
+            <section class="app-layout"> 
+                <aside class="sidebar retro-box"> <!-- contenedor con paleta de colores y herramientas -->
+                    
+                    <p>Paleta:</p>
+                    <div class="palette-grid"> <!-- Grid con paleta de colores -->
+                        <div class="palette-color selected" style="background-color: #000000;" data-color="#000000"></div> <!-- cada color individualmente -->
+                        <div class="palette-color" style="background-color: #ffffff;" data-color="#ffffff"></div> 
+                        <div class="palette-color" style="background-color: #808080;" data-color="#808080"></div>
+                        <div class="palette-color" style="background-color: #c0c0c0;" data-color="#c0c0c0"></div>
+                        
+                        <div class="palette-color" style="background-color: #ff0000;" data-color="#ff0000"></div>
+                        <div class="palette-color" style="background-color: #800000;" data-color="#800000"></div>
+                        <div class="palette-color" style="background-color: #ff8000;" data-color="#ff8000"></div>
+                        <div class="palette-color" style="background-color: #f5deb3;" data-color="#f5deb3"></div>
+
+                        <div class="palette-color" style="background-color: #ffff00;" data-color="#ffff00"></div>
+                        <div class="palette-color" style="background-color: #808000;" data-color="#808000"></div>
+                        <div class="palette-color" style="background-color: #00ff00;" data-color="#00ff00"></div>
+                        <div class="palette-color" style="background-color: #008000;" data-color="#008000"></div>
+
+                        <div class="palette-color" style="background-color: #00ffff;" data-color="#00ffff"></div>
+                        <div class="palette-color" style="background-color: #008080;" data-color="#008080"></div>
+                        <div class="palette-color" style="background-color: #0000ff;" data-color="#0000ff"></div>
+                        <div class="palette-color" style="background-color: #000080;" data-color="#000080"></div>
+
+                        <div class="palette-color" style="background-color: #ff00ff;" data-color="#ff00ff"></div>
+                        <div class="palette-color" style="background-color: #800080;" data-color="#800080"></div>
+                        <div class="palette-color" style="background-color: #ffc0cb;" data-color="#ffc0cb"></div>
+                        <div class="palette-color" style="background-color: #fa8072;" data-color="#fa8072"></div>
+                    </div>
+
+                    <p>Herramientas:</p>
+                    <div class="tools-stack"> <!-- Contenedor con 3 botones con cada herramienta -->
+                        <button id="btnPincel" class="btn-retro active">✏️ Pincel</button>
+                        <button id="btnGoma" class="btn-retro">🧽 Goma</button>
+                        <button id="btnLimpiar" class="btn-retro danger">🗑️ Borrar</button>
+                    </div>
+                </aside>
+
+                <section class="canvas-area retro-box"> <!-- Contenedor con canvas de pixel -->
+                    <div id="lienzo" class="grid-canvas">
+                        </div>
+                </section>
+            </section>
+            
+             <div class="status-bar retro-box"> <p class="instrucciones">Mantén click para pintar.</p>
+                <!-- Status bar que indica que heramienta esta seleccionada -->
+            </div>
+
+            <section class="galeria-section" style="margin-top: 10px; font-size: 16px; padding: 10px;">
+                <p>Inspiración (Naturaleza):</p>
+                <div class="gallery-container">
+                    
+                    <div style="display: inline-block; margin: 5px; border: 2px solid white; box-shadow: 2px 2px black;"> <!-- usé bordes blancos y sombras negras (box-shadow) en los divs para simular el relieve 3D de la interfaz de Windows 95 -->
+                        <img src="https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/block/oak_sapling.png" 
+                             alt="Arbol" 
+                             style="width: 50px; height: 50px; object-fit: contain; display: block; background: #cceebb; image-rendering: pixelated;">
+                    </div>
+                    
+                    <div style="display: inline-block; margin: 5px; border: 2px solid white; box-shadow: 2px 2px black;">
+                        <img src="https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/block/poppy.png" 
+                             alt="Flor Roja" 
+                             style="width: 50px; height: 50px; object-fit: contain; display: block; background: #ffdddd; image-rendering: pixelated;">
+                    </div>
+
+                    <div style="display: inline-block; margin: 5px; border: 2px solid white; box-shadow: 2px 2px black;">
+                        <img src="https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/block/dandelion.png" 
+                             alt="Flor Amarilla" 
+                             style="width: 50px; height: 50px; object-fit: contain; display: block; background: #ffffcc; image-rendering: pixelated;">
+                    </div>
+
+                    <div style="display: inline-block; margin: 5px; border: 2px solid white; box-shadow: 2px 2px black;">
+                        <img src="https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/apple.png" 
+                             alt="Manzana" 
+                             style="width: 50px; height: 50px; object-fit: contain; display: block; background: #ffeeee; image-rendering: pixelated;">
+                    </div>
+
+                    <div style="display: inline-block; margin: 5px; border: 2px solid white; box-shadow: 2px 2px black;">
+                        <img src="https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/block/cactus_side.png" 
+                             alt="Cactus" 
+                             style="width: 50px; height: 50px; object-fit: contain; display: block; background: #eeffcc; image-rendering: pixelated;">
+                    </div>
+
+                    <div style="display: inline-block; margin: 5px; border: 2px solid white; box-shadow: 2px 2px black;">
+                        <img src="https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/melon_slice.png" 
+                             alt="Sandia" 
+                             style="width: 50px; height: 50px; object-fit: contain; display: block; background: #ddffdd; image-rendering: pixelated;">
+                    </div>
+                </div>
+            </section>
+            <!-- tuve problemas de carga con imágenes externas, así que use assets alojados en GitHub para asegurar que no se rompan los enlaces -->
+            <!-- como cada ítem requería un color de fondo único y específico que no se repite en el resto de la web, es más eficiente definirlo localmente que llenar el CSS de clases de un solo uso
+             tambien, lo hice luego de hacer la pagina css y quise evitar romper el codigo -->
+        </div>
+    </main>
+    
+
+    <!-- Seccion con pop up de intro para comenzar el juego, lo quise incluir para que la experiencia sea mas amigable -->
+    <div id="welcomeScreen" class="overlay"> <!-- capa que cubre toda la pantalla y actua como una barrera que impide que se pueda dibujar sin antes darle a start -->
+        <div class="window-retro modal-window"> <!-- reutilicé las clases CSS .window-retro para mantener la coherencia y consistencia visual con el resto de la pagina -->
+            <div class="title-bar">
+                <div class="title-bar-text">👋 Welcome.exe</div>
+                <div class="title-bar-controls">
+                    <button tabindex="-1" aria-hidden="true" style="cursor: default;"></button> <!-- Mismo tema de los botones del principio, es falso -->
+                </div>
+            </div>
+            
+            <div class="window-body modal-content">
+                <h1 class="modal-title">Bienvenido a<br>WinPixel Paint 95! 🎨</h1>
+                <p class="modal-text">Crea arte increíble en 8 bits</p>
+                <p class="modal-text">¡Que te diviertas!</p>
+                
+                <div class="modal-footer">
+                    <button id="btnStart" class="btn-retro start-app-btn">Start >></button> <!-- la interacción real se gestiona mediante el botón 'Start', el cual tiene un ID específico para que JavaScript capture el evento de clic y oculte el modal -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <!-- JS está justo al final del body para asegurar que todo el HTML se haya cargado y dibujado y para evitar que de algun error -->
+
+</body>
+</html>
